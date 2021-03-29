@@ -9,13 +9,8 @@ import org.xml.sax.SAXException;
 
 public class kuir {
 
-	public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
+	public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-//		makeCollection mc = new makeCollection("textsample");
-//		makeKeyword mk = new makeKeyword("src/Collection.xml");
-
-		
-		System.out.println(args.length);
 		
 		if (args.length == 2) {
 			System.out.println(args[0]);
@@ -27,6 +22,10 @@ public class kuir {
 			else if (args[0].equals("-k")) {
 				@SuppressWarnings("unused")
 				makeKeyword mk = new makeKeyword(args[1]);
+			}
+			else if (args[0].equals("-i")) {
+				@SuppressWarnings("unused")
+				indexer in = new indexer(args[1]);
 			}
 			
 		}
