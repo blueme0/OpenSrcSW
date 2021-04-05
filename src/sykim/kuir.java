@@ -27,11 +27,13 @@ public class kuir {
 			}
 			
 		}
+		/*
 		else if (args.length == 4) {
 			if (args[0].equals("-s") && args[2].equals("-q")) {
 				searcher sc = new searcher(args[1], args[3]);
 			}
 		}
+		*/
 		else {
 			System.err.println("올바른 옵션을 입력하세요");
 			System.exit(1);
