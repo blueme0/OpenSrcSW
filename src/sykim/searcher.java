@@ -20,24 +20,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class searcher {
+	
+	double queryPow = 0.0;
+	double[] indexPow = new double[returnDocNum()];
 
 	public searcher(String route, String query) throws ClassNotFoundException, IOException, SAXException, ParserConfigurationException {
 		super();
-		double[] querySim = CalcSim(route, query);
+		double[] querySim = InnerProduct(route, query);
 		int size = querySim.length;
 		int[] seq = new int[size];
-		for (int i=0 ; i<seq.length; i++) {
-			seq[i] = i;
-		}
-		
-		/* 확인용
-		System.out.println("===========");
-		System.out.println("모든 문서 출력");
-		for (int i=0; i<size; i++) {
-			System.out.println(querySim[i]);
-		} 
-		System.out.println("===========");
-		*/
 
 		// 큰 수부터 순서대로 정렬
 		
@@ -66,9 +57,8 @@ public class searcher {
 		}
 		System.out.println("==========");
 		System.out.println("상위 3개 문서");
-		for (int i=0; i<3 ;i++) {
-			System.out.println(i+1 + ") " + getName(seq[i]));
-		}
+
+		
 		System.out.println("==========");
 		
 	}
@@ -99,8 +89,17 @@ public class searcher {
 		
 	}
 	
+	public int returnDocNum() throws SAXException, IOException, ParserConfigurationException {
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		Document document = docBuilder.parse("Collection.xml");
+		document.getDocumentElement().normalize();
+		NodeList doclist = document.getElementsByTagName("doc");
+		return doclist.getLength();
+	}
+	
 	@SuppressWarnings("unchecked")
-	public double[] CalcSim(String route, String query) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException {
+	public double[] InnerProduct(String route, String query) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException {
 		
 		FileInputStream fileIStream = new FileInputStream(route);
 		ObjectInputStream objectInputStream = new ObjectInputStream(fileIStream);
@@ -134,19 +133,17 @@ public class searcher {
 		for (int i=0; i<klArr.length; i++) {
 			if (hashMap.containsKey(klArr[i][0])) {
 				List<String> temp = hashMap.get(klArr[i][0]);
-				for (int j=0; j<temp.size()/2; j++) {
-					simArr[Integer.parseInt(temp.get(j*2))] += Double.parseDouble(temp.get(j*2 + 1));
+				queryPow = Double.parseDouble(klArr[i][1]) * Double.parseDouble(klArr[i][1]);
+				for (int j=0; j<temp.size()/2; j++)
+				{ 
+					simArr[Integer.parseInt(temp.get(j*2))] += Double.parseDouble(klArr[j][1]) * Double.parseDouble(temp.get(j*2 + 1));
+					indexPow[Integer.parseInt(temp.get(j*2))] += Double.parseDouble(temp.get(j*2 + 1)) * Double.parseDouble(temp.get(j*2 + 1));
 				}
 			}
 		}
-		
-		for (int i=0; i<simArr.length; i++) {
-			simArr[i] = Math.round(simArr[i]*100)/100.0;
-		}
-		
+
 		return simArr;
 
 		// CalcSim : query를 입력받고 각 document 사이의 유사도를 return
 	}
-
 }
