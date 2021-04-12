@@ -178,4 +178,8 @@ public class searcher {
 
 		// CalcSim : query를 입력받고 각 document 사이의 유사도를 return
 	}
+
+
+
+
 }
