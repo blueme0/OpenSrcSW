@@ -29,6 +29,22 @@ public class searcher {
 		double[] querySim = InnerProduct(route, query);
 		int size = querySim.length;
 		int[] seq = new int[size];
+		
+		int zeroCount = 0;
+		for (int i=0 ; i<seq.length; i++) {
+			if (querySim[i] == 0)
+				zeroCount++;
+			seq[i] = i;
+		}
+		
+		/*
+		System.out.println("===========");
+		System.out.println("모든 문서 출력");
+		for (int i=0; i<size; i++) {
+			System.out.println(querySim[i]);
+		} 
+		System.out.println("===========");
+		*/
 
 		// 큰 수부터 순서대로 정렬
 		
@@ -58,7 +74,23 @@ public class searcher {
 		System.out.println("==========");
 		System.out.println("상위 3개 문서");
 
-		
+		int num = querySim.length - zeroCount;
+		if (num == 0)
+			System.out.println("검색 결과가 없습니다.");
+		else if (num > 0 && num < 3) {
+			for (int i=0; i<num ;i++) {
+				System.out.println(i+1 + ") " + getName(seq[i]));
+			}
+			for (int i=2; i>=num; i--) {
+				System.out.println(i+1 + ") __");
+			}
+		}
+		else {
+			for (int i=0; i<3 ;i++) {
+				System.out.println(i+1 + ") " + getName(seq[i]));
+			}
+			
+		}		
 		System.out.println("==========");
 		
 	}
