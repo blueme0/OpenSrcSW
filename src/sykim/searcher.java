@@ -73,7 +73,7 @@ public class searcher {
 		}
 		System.out.println("==========");
 		System.out.println("상위 3개 문서");
-		
+
 		int num = querySim.length - zeroCount;
 		if (num == 0)
 			System.out.println("검색 결과가 없습니다.");
@@ -90,9 +90,7 @@ public class searcher {
 				System.out.println(i+1 + ") " + getName(seq[i]));
 			}
 			
-		}
-
-		
+		}		
 		System.out.println("==========");
 		
 	}
@@ -179,21 +177,5 @@ public class searcher {
 		return simArr;
 
 		// CalcSim : query를 입력받고 각 document 사이의 유사도를 return
-		
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public double[] CalcSim(String route, String query) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException {
-		
-		double[] simArr = InnerProduct(route, query);
-		
-		for (int i=0; i<simArr.length; i++) {
-			if (simArr[i] != 0)	
-				simArr[i] = simArr[i] / (Math.sqrt(queryPow) * Math.sqrt(indexPow[i]));
-			simArr[i] = Math.round(simArr[i]*100)/100.0;
-		}
-		
-		return simArr;
 	}
 }
