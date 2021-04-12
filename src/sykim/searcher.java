@@ -178,4 +178,18 @@ public class searcher {
 
 		// CalcSim : query를 입력받고 각 document 사이의 유사도를 return
 	}
+	
+	@SuppressWarnings("unchecked")
+	public double[] CalcSim(String route, String query) throws IOException, ClassNotFoundException, SAXException, ParserConfigurationException {
+		
+		double[] simArr = InnerProduct(route, query);
+		
+		for (int i=0; i<simArr.length; i++) {
+			if (simArr[i] != 0)	
+				simArr[i] = simArr[i] / (Math.sqrt(queryPow) * Math.sqrt(indexPow[i]));
+			simArr[i] = Math.round(simArr[i]*100)/100.0;
+		}
+		
+		return simArr;
+	}
 }
